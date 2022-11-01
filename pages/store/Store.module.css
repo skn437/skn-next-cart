@@ -1,0 +1,48 @@
+.item_holder {
+	@apply grid grid-flow-row gap-5 m-5 md:justify-center;
+}
+
+.item {
+	@apply rounded-md overflow-hidden;
+	box-shadow: 0 0 0 1px hsla(200, 60%, 40%, 0.9);
+}
+
+.item_image {
+	@apply relative w-[100%] object-contain;
+	/*object-fit: contain;
+	width: 100%;
+	position: relative;
+	height: unset;*/
+}
+
+.info_holder {
+	@apply flex justify-between items-center m-2 p-1;
+}
+
+.conditional_cart_holder {
+	@apply pb-2 mb-1;
+}
+
+.cart_button_holder {
+	@apply text-center text-white mx-2 cursor-pointer;
+}
+
+.add_to_cart_button {
+	@apply rounded-md bg-blue-500 p-1;
+}
+
+.cart_item_changer_holder {
+	@apply flex flex-row gap-2 justify-center items-center;
+}
+
+.count_decrease_button {
+	@apply rounded-sm bg-red-600 px-2;
+}
+
+.count_show {
+	@apply text-sm font-bold;
+}
+
+.count_increase_button {
+	@apply rounded-sm bg-blue-600 px-2;
+}

@@ -1,0 +1,26 @@
+.container {
+	@apply px-1 py-2 flex justify-between items-center sticky top-0 z-[2];
+	box-shadow: 0 0 0 1px hsla(200, 60%, 20%, 0.9);
+}
+
+.box {
+	@apply md:flex justify-start items-center gap-2;
+}
+
+.cart_number_holder {
+	@apply flex justify-evenly items-center relative mr-3;
+}
+
+.cart {
+	@apply rounded-full p-2 hover:transition ease-in-out duration-500;
+	box-shadow: 0 0 0 1px hsla(200, 90%, 50%, 0.9);
+}
+
+.cart:hover {
+	box-shadow: 0 0 0 3px hsla(200, 90%, 50%, 0.9);
+}
+
+.item_number {
+	@apply absolute bg-red-600 rounded-full px-2 -right-2 -bottom-2 transform scale-[60%] text-white;
+	box-shadow: 0 0 0 1px hsla(0, 100%, 50%, 0.9);
+}
