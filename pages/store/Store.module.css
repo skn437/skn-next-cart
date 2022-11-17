@@ -19,6 +19,10 @@
 	@apply flex justify-between items-center m-2 p-1;
 }
 
+.hidden_input {
+	@apply hidden;
+}
+
 .conditional_cart_holder {
 	@apply pb-2 mb-1;
 }
