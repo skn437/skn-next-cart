@@ -1,18 +1,18 @@
 import styles from "@/pages/store/Store.module.css";
 import formatCurrency from "@/utilities/formatCurrency";
-import type { GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import type { StoreType } from "@/pages/api/store";
 import { IdAtom } from "@/recoil/atoms/IdAtom";
-import { CartSelectors } from "@/recoil/selectors/CartSelectors";
-import { CartAtoms } from "@/recoil/atoms/CartAtoms";
+import { CartItemType, CartSelectors } from "@/recoil/selectors/CartSelectors";
+import { CartAtoms, CartType } from "@/recoil/atoms/CartAtoms";
 
 interface PropsType {
 	store: StoreType[];
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
 	const { data } = await axios.get("http://localhost:3000/api/store", {
 		headers: {
 			"Application-Type": "application/json",
@@ -28,9 +28,11 @@ export const getStaticProps: GetStaticProps = async () => {
 
 const Store: NextPage<PropsType> = (props) => {
 	const [id, setId] = useRecoilState<number | string>(IdAtom);
-	const [cartItem, setCartItem] = useRecoilState(CartSelectors(id));
+	const [cartItem, setCartItem] = useRecoilState<CartItemType>(
+		CartSelectors(id)
+	);
 
-	const cart = useRecoilValue(CartAtoms);
+	const [cart, setCart] = useRecoilState<CartType>(CartAtoms);
 
 	return (
 		<div>

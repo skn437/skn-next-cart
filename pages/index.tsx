@@ -1,7 +1,7 @@
 import styles from "@/pages/Home.module.css";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import axios from "axios";
 import type { StoreType } from "@/pages/api/store";
 import { CartAtoms, CartType } from "@/recoil/atoms/CartAtoms";
@@ -24,8 +24,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 	};
 };
 
-const Home = (props: PropsType) => {
-	const [cart, setCart] = useRecoilState(CartAtoms);
+const Home: NextPage<PropsType> = (props) => {
+	const [cart, setCart] = useRecoilState<CartType>(CartAtoms);
 
 	const list: CartType[] = props.store.map((item) => {
 		const object = {
