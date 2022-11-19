@@ -7,6 +7,7 @@ import type { StoreType } from "@/pages/api/store";
 import { IdAtom } from "@/recoil/atoms/IdAtom";
 import { CartItemType, CartSelectors } from "@/recoil/selectors/CartSelectors";
 import { CartAtoms, CartType } from "@/recoil/atoms/CartAtoms";
+import { useEffect } from "react";
 
 interface PropsType {
 	store: StoreType[];
@@ -33,6 +34,23 @@ const Store: NextPage<PropsType> = (props) => {
 	);
 
 	const [cart, setCart] = useRecoilState<CartType>(CartAtoms);
+
+	const list: CartType[] = props.store.map((item) => {
+		const object = {
+			[item.id]: {
+				name: item.name,
+				quantity: 0,
+			},
+		};
+
+		return object;
+	});
+	const objList = Object.assign({}, ...list);
+
+	useEffect(() => {
+		setCart(objList);
+		console.log(`objList: `, cart);
+	}, []);
 
 	return (
 		<div>
