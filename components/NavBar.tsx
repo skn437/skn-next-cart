@@ -1,21 +1,31 @@
 import Link from "next/link";
 import styles from "@/components/NavBar.module.css";
 import { MdShoppingCart } from "react-icons/md";
+import QuantityAtomSelector from "@/recoil/selectors/QuantityAtomSelector";
+import { useRecoilValue } from "recoil";
 
-const NavBar = () => {
+const NavBar: React.FC<{}> = () => {
+	const sum = useRecoilValue(QuantityAtomSelector);
+
 	return (
 		<div className={styles.container}>
 			<ul className={styles.box}>
 				<li>
-					<Link href="/">Home</Link>
+					<Link href="/">
+						<a>Home</a>
+					</Link>
 				</li>
 
 				<li>
-					<Link href="/store">Store</Link>
+					<Link href="/store">
+						<a>Store</a>
+					</Link>
 				</li>
 
 				<li>
-					<Link href="/about">About</Link>
+					<Link href="/about">
+						<a>About</a>
+					</Link>
 				</li>
 			</ul>
 
@@ -24,7 +34,7 @@ const NavBar = () => {
 					<MdShoppingCart></MdShoppingCart>
 				</span>
 
-				<span className={styles.item_number}>3</span>
+				<span className={styles.item_number}>{sum}</span>
 			</div>
 		</div>
 	);

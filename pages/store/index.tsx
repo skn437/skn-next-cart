@@ -1,13 +1,13 @@
 import styles from "@/pages/store/Store.module.css";
-import { useEffect, useState } from "react";
 import formatCurrency from "@/utilities/formatCurrency";
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import type { StoreType } from "@/pages/api/store";
 import { IdAtom } from "@/recoil/atoms/IdAtom";
-import { CartSelectors } from "@/recoil/selectors/CartSelectors";
-import { CartAtoms } from "@/recoil/atoms/CartAtoms";
+import { CartItemType, CartSelectors } from "@/recoil/selectors/CartSelectors";
+import { CartAtoms, CartType } from "@/recoil/atoms/CartAtoms";
+import { useEffect } from "react";
 
 interface PropsType {
 	store: StoreType[];
@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 			"Application-Type": "application/json",
 		},
 	});
-	console.log(`Data: `, data);
+
 	return {
 		props: {
 			store: data,
@@ -27,13 +27,30 @@ export const getServerSideProps: GetServerSideProps = async () => {
 	};
 };
 
-const Store = (props: PropsType) => {
-	let q = 0;
+const Store: NextPage<PropsType> = (props) => {
 	const [id, setId] = useRecoilState<number | string>(IdAtom);
-	//const [id, setId] = useState<number | string>(0);
-	const [cartItem, setCartItem] = useRecoilState(CartSelectors(id));
+	const [cartItem, setCartItem] = useRecoilState<CartItemType>(
+		CartSelectors(id)
+	);
 
-	const [cart, setCart] = useRecoilState(CartAtoms);
+	const [cart, setCart] = useRecoilState<CartType>(CartAtoms);
+
+	const list: CartType[] = props.store.map((item) => {
+		const object = {
+			[item.id]: {
+				name: item.name,
+				quantity: 0,
+			},
+		};
+
+		return object;
+	});
+	const objList = Object.assign({}, ...list);
+
+	useEffect(() => {
+		setCart(objList);
+		console.log(`objList: `, cart);
+	}, []);
 
 	return (
 		<div>
@@ -44,6 +61,9 @@ const Store = (props: PropsType) => {
 					<div
 						key={item.id}
 						className={styles.item}
+						onMouseMove={() => {
+							setId(item.id);
+						}}
 					>
 						<img
 							src={item.imgUrl}
@@ -64,7 +84,6 @@ const Store = (props: PropsType) => {
 									<div
 										className={styles.add_to_cart_button}
 										onClick={() => {
-											setId(item.id);
 											setCartItem({
 												...cartItem,
 												quantity: 1,
@@ -79,7 +98,6 @@ const Store = (props: PropsType) => {
 									<button
 										className={styles.count_decrease_button}
 										onClick={() => {
-											setId(item.id);
 											let tempQuantity = cart[item.id].quantity;
 											setCartItem({
 												...cartItem,
@@ -97,7 +115,6 @@ const Store = (props: PropsType) => {
 									<button
 										className={styles.count_increase_button}
 										onClick={() => {
-											setId(item.id);
 											let tempQuantity = cart[item.id].quantity;
 											setCartItem({
 												...cartItem,

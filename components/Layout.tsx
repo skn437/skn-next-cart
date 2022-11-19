@@ -1,6 +1,10 @@
 import NavBar from "./NavBar";
 
-const Layout = ({ children }) => {
+interface ChildrenType {
+	children: JSX.Element;
+}
+
+const Layout: React.FC<ChildrenType> = ({ children }) => {
 	return (
 		<div>
 			<NavBar></NavBar>
