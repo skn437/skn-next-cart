@@ -2,12 +2,13 @@ import styles from "@/pages/store/Store.module.css";
 import formatCurrency from "@/utilities/formatCurrency";
 import type { GetServerSideProps, NextPage } from "next";
 import axios from "axios";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import type { StoreType } from "@/pages/api/store";
 import { IdAtom } from "@/recoil/atoms/IdAtom";
 import { CartItemType, CartSelectors } from "@/recoil/selectors/CartSelectors";
 import { CartAtoms, CartType } from "@/recoil/atoms/CartAtoms";
 import { useEffect } from "react";
+import TotalPriceAtomSelector from "@/recoil/selectors/TotalPriceAtomSelector";
 
 interface PropsType {
 	store: StoreType[];
@@ -39,6 +40,7 @@ const Store: NextPage<PropsType> = (props) => {
 		const object = {
 			[item.id]: {
 				name: item.name,
+				price: item.price,
 				quantity: 0,
 			},
 		};
@@ -52,9 +54,12 @@ const Store: NextPage<PropsType> = (props) => {
 		console.log(`objList: `, cart);
 	}, []);
 
+	const total = useRecoilValue<number>(TotalPriceAtomSelector);
+
 	return (
 		<div>
 			<h1>Store</h1>
+			<h1>Total Price: {total}</h1>
 
 			<div className={styles.item_holder}>
 				{props.store.map((item) => (

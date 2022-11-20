@@ -1,8 +1,9 @@
-import { DefaultValue, selector, selectorFamily } from "recoil";
+import { DefaultValue, selectorFamily } from "recoil";
 import { CartAtoms } from "@/recoil/atoms/CartAtoms";
 
 export interface CartItemType {
 	name: string;
+	price: number;
 	quantity: number;
 }
 

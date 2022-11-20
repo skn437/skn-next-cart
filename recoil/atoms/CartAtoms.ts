@@ -4,6 +4,7 @@ import { recoilPersist } from "recoil-persist";
 export interface CartType {
 	[id: string | number]: {
 		name: string;
+		price: number;
 		quantity: number;
 	};
 }
@@ -16,6 +17,7 @@ const { persistAtom } = recoilPersist();
 const defaultCart: CartType = {
 	[0]: {
 		name: "",
+		price: 0,
 		quantity: 0,
 	},
 };
